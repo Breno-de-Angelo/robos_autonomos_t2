@@ -1,7 +1,7 @@
 FROM osrf/ros:humble-desktop-full
 
 # Install new gazebo
-RUN apt-get update && apt-get install -y wget gnupg python3-vcstool && \
+RUN apt-get update && apt-get install -y wget gnupg python3-vcstool python3-pip && \
     wget -O - http://packages.osrfoundation.org/gazebo.key | gpg --dearmor -o /usr/share/keyrings/gazebo-archive-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/gazebo-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null && \
     apt-get update && apt-get install -y ignition-fortress
