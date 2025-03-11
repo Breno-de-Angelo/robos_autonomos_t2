@@ -24,6 +24,3 @@ RUN /bin/bash -c "source /opt/ros/humble/setup.bash && \
 # Create the clearpath directory and copy the robot.yaml into it
 RUN mkdir -p /root/clearpath
 COPY robot.yaml /root/clearpath/
-
-WORKDIR /root/clearpath_ws
-
