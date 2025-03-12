@@ -14,6 +14,10 @@ Com o terminal dentro do container faça
 ```bash
 cd ~/robos_autonomos_t2
 wget -O pose_landmarker.task -q https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task
+source /opt/ros/humble/setup.bash
+source ~/clearpath_ws/install/setup.bash
+pip install -r requirements.txt
+colcon build --symlink-install
 source install/setup.bash
 ros2 launch person_follower demo.launch.py
 ```

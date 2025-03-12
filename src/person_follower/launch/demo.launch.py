@@ -2,9 +2,9 @@ import os
 import launch
 import launch_ros.actions
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
@@ -17,29 +17,39 @@ def generate_launch_description():
     # Default RViz config file path
     default_rviz_config = os.path.join(package_share_dir, 'config', 'rviz_config.rviz')
 
-    # Declare RViz config file argument
+    # Declare launch arguments
     rviz_config_arg = DeclareLaunchArgument(
         'rviz_config',
         default_value=default_rviz_config,
         description='Path to the RViz configuration file'
     )
 
-    # Load the RViz config file
+    clearpath_dir_arg = DeclareLaunchArgument(
+        'clearpath_dir_path',
+        default_value=os.getenv('HOME') + '/clearpath/',
+        description='Base directory for Clearpath setup'
+    )
+
+    # Load launch configurations
     rviz_config_file = LaunchConfiguration('rviz_config')
+    clearpath_dir_path = LaunchConfiguration('clearpath_dir_path')
 
     # RViz Node
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        parameters=[{'use_sim_time': True}],
-        arguments=['-d', rviz_config_file],
-        remappings=[
-            ('/tf', '/a200_0000/tf'),
-            ('/tf_static', '/a200_0000/tf_static')
-        ]
-    )
+    rviz = GroupAction([
+        PushRosNamespace('a200_0000'),
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            parameters=[{'use_sim_time': True}],
+            arguments=['-d', rviz_config_file],
+            remappings=[
+                ('/tf', '/a200_0000/tf'),
+                ('/tf_static', '/a200_0000/tf_static')
+            ]
+        )
+    ])
 
     # Person Detection Node
     person_detection_node = Node(
@@ -54,6 +64,20 @@ def generate_launch_description():
         ]
     )
 
+    # SLAM
+    slam = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory('clearpath_nav2_demos'),
+                'launch/slam.launch.py'
+            )
+        ),
+        launch_arguments={
+            'setup_path': clearpath_dir_path,
+            'use_sim_time': 'true'
+        }.items()
+    )
+
     # Include the Clearpath Gazebo Simulation Launch File
     simulation_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -66,7 +90,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         rviz_config_arg,
-        rviz_node,
+        clearpath_dir_arg,
+        rviz,
         person_detection_node,
+        slam,
         simulation_launch
     ])
