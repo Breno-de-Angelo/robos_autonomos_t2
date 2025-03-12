@@ -12,6 +12,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/launch', ['launch/demo.launch.py']),
         ('share/' + package_name + '/config', ['config/rviz_config.rviz']),
+        ('share/' + package_name + '/config', ['config/nav2_params.yaml']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
