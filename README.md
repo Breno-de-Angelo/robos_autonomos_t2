@@ -25,3 +25,8 @@ ros2 launch person_follower demo.launch.py
 O comando wget serve para baixar o modelo de reconhecimento de pessoas e só precisa ser executado uma vez.
 
 Para movimentar o robô no gazebo, altere "/cmd_vel" para "/a200_0000/cmd_vel"
+
+## TODO
+- Fazer execução rápida no Gazebo
+- Rodar algumas vezes (10) e testar quantas vezes dá certo
+- Se incomodar, trocar o robô
