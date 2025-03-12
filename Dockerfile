@@ -16,6 +16,10 @@ RUN mkdir /root/clearpath_ws/src -p && \
     rosdep update && \
     rosdep install -r --from-paths src -i -y
 
+# [TO-DO] Download explore_lite pkg and dependencies
+
+# [TO-DO] Build explore_lite
+
 # Build clearpath simulator
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash && \
     cd /root/clearpath_ws && \
