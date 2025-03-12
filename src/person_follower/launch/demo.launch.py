@@ -55,14 +55,14 @@ def generate_launch_description():
 
     # Person Detection Node
     person_detection_node = Node(
-        package='person_follower',
+        package=package_name,
         executable='person_detection',
         name='person_detection',
         output='screen',
         parameters=[{'use_sim_time': True}],
         remappings=[
-            ('/tf', '/a200_0000/tf'),
-            ('/tf_static', '/a200_0000/tf_static')
+            ('/tf', f'/{robot_name}/tf'),
+            ('/tf_static', f'/{robot_name}/tf_static')
         ]
     )
 
@@ -104,6 +104,8 @@ def generate_launch_description():
 
     explore_lite = GroupAction([
         PushRosNamespace(robot_name),
+        SetRemap('/' + robot_name + '/goal_pose',
+                 '/' + robot_name + '/exploration_goal_pose'),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([explore_lite_launch]),
             launch_arguments={
@@ -112,6 +114,20 @@ def generate_launch_description():
         )
     ])
     
+    nav2_mux = GroupAction([
+        PushRosNamespace(robot_name),
+        Node(
+            package=package_name,
+            executable='nav2_mux',
+            name='nav2_mux',
+            output='screen',
+            parameters=[{'use_sim_time': True}],
+            remappings=[
+                ('/tf', f'/{robot_name}/tf'),
+                ('/tf_static', f'/{robot_name}/tf_static')
+            ]
+        )
+    ])
 
     # Include the Clearpath Gazebo Simulation Launch File
     simulation_launch = IncludeLaunchDescription(
@@ -131,5 +147,6 @@ def generate_launch_description():
         slam,
         nav2,
         explore_lite,
+        nav2_mux,
         simulation_launch
     ])

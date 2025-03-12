@@ -23,7 +23,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'person_detection = person_follower.person_detection:main'
+            'person_detection = person_follower.person_detection:main',
+            'nav2_mux = person_follower.nav2_mux:main'
         ],
     },
 )
