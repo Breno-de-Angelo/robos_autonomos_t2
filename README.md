@@ -1,6 +1,8 @@
 # Trabalho 2 - Robôs Autônomos
 
-Para executar a simulação foi criado um Dockerfile que utiliza o ROS2 Humble. Primeiramente instale o Docker.
+Para executar a simulação foi criado um Dockerfile que utiliza o ROS2 Humble. 
+
+Primeiramente instale o Docker.
 
 Em seguida:
 ```bash
@@ -17,8 +19,6 @@ colcon build --symlink-install
 source install/setup.bash - alternatively just type "srcinst"
 ros2 launch person_follower demo.launch.py
 ```
-
-O comando wget serve para baixar o modelo de reconhecimento de pessoas e só precisa ser executado uma vez.
 
 Para movimentar o robô no gazebo, altere "/cmd_vel" para "/a200_0000/cmd_vel"
 
