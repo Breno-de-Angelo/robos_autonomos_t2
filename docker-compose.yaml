@@ -1,0 +1,18 @@
+services:
+  robos_autonomos_t2:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    container_name: robos_autonomos_t2
+    network_mode: host
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - .:/root/robos_autonomos_t2  
+      - ${HOME}/.Xauthority:/root/.Xauthority:ro 
+    environment:
+      - DISPLAY=${DISPLAY}
+    tty: true     
+    stdin_open: true
+
+
