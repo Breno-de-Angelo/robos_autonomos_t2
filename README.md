@@ -2,7 +2,7 @@
 
 Para executar a simulação foi criado um Dockerfile que utiliza o ROS2 Humble. 
 
-Primeiramente instale o Docker.
+Primeiramente instale o Docker e Docker Compose
 
 Em seguida:
 
