@@ -3,3 +3,6 @@ install/
 log/
 .vscode
 *.pyc
+
+pose_landmarker.task
+output.txt
