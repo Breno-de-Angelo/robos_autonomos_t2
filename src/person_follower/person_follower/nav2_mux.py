@@ -14,7 +14,7 @@ class Nav2GoalMultiplexer(Node):
         self.tf_listener = TransformListener(self.tf_buffer, self)
 
         qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE)
-        self.explore_resume_pub = self.create_publisher(Bool, '/explore/resume', qos_profile)
+        self.explore_resume_pub = self.create_publisher(Bool, '/a200_0000/explore/resume', qos_profile)
         self.nav_to_pose_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
 
         self.timer = self.create_timer(1.0, self.check_person_frame)
@@ -32,6 +32,7 @@ class Nav2GoalMultiplexer(Node):
             # Stop exploration
             stop_msg = Bool()
             stop_msg.data = False
+            
             self.explore_resume_pub.publish(stop_msg)
             
             # Send navigation goal

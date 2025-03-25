@@ -104,8 +104,8 @@ def generate_launch_description():
 
     explore_lite = GroupAction([
         PushRosNamespace(robot_name),
-        SetRemap('/' + robot_name + '/goal_pose',
-                 '/' + robot_name + '/exploration_goal_pose'),
+        # SetRemap('/' + robot_name + '/goal_pose',
+        #          '/' + robot_name + '/exploration_goal_pose'),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([explore_lite_launch]),
             launch_arguments={

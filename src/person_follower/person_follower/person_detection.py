@@ -45,7 +45,6 @@ class PoseDetectionNode(Node):
         self.latest_depth_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='passthrough')
     
     def image_callback(self, msg):
-        self.get_logger().info('Received image')
         
         cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='rgb8')
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=cv_image)
